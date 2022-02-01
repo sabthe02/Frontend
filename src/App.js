@@ -11,6 +11,7 @@ import Login from './pages/security/Login'
 import Register from './pages/security/Register'
 import NotFound from './pages/access/NotFound'
 import BarraNav from './components/Nav'
+import NavWithoutLinks from './components/Nav-without-links/'
 import Loader from './components/Loader'
 import {HIDE_LOADER, LOGIN, LOGOUT, REFRESH_TOKEN, SHOW_LOADER } from './action-types'
 
@@ -108,15 +109,24 @@ function App() {
                     } />
 
                     <Route path="/login" element={
-                        <Login />
+                        <>
+                            <NavWithoutLinks />
+                            <Login />
+                        </>
                     } />
 
                     <Route path="/register" element={
-                        <Register />
+                         <>
+                         <NavWithoutLinks />
+                         <Register />
+                     </>
                     } />
 
                     <Route path="/" element={
+                        <>
+                        <NavWithoutLinks />
                         <Landing />
+                        </>
                     } />
 
                     <Route path="*" element={

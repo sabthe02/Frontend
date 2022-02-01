@@ -1,3 +1,4 @@
+import './style.scss'
 import React from 'react'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
@@ -5,6 +6,7 @@ import { FaHandScissors } from 'react-icons/fa'
 import { AuthContext } from '../../App'
 import NavLink from '../NavLink'
 import { LOGOUT } from '../../action-types'
+
 
 function BarraNav() {
     const { dispatch } = React.useContext(AuthContext)
@@ -31,8 +33,6 @@ function BarraNav() {
         </Container>
         </Navbar>
         </>
-
-
     )
 }
 

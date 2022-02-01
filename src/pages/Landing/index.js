@@ -1,21 +1,17 @@
 import './style.scss'
 import React from 'react'
+import { Navbar, Nav, Container } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import { FaHandScissors } from 'react-icons/fa'
 import { AuthContext } from '../../App'
+import { LOGOUT } from '../../action-types'
+
 
 function Landing() {
-    const { state } = React.useContext(AuthContext)
-
+    const { state } = React.useContext(AuthContext)          
+    
     return (
-        <div>
-            <header className="site-header sticky-top py-1">
-                <nav className="container d-flex flex-column flex-md-row justify-content-between">
-                    <div className="py-2">
-                        Piedra-Papel-Tijera <FaHandScissors />
-                    </div>
-                </nav>
-            </header>
-
+        <>
             <main>
                 <div className="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
                     <div className="col-md-5 p-lg-5 mx-auto my-5">
@@ -36,7 +32,7 @@ function Landing() {
                     </div>
                 </div>
             </footer>
-        </div>
+        </>
     )
 }
 
