@@ -1,33 +1,37 @@
 import './style.scss'
-import React, { useEffect, useContext, useReducer } from 'react'
-import { useNavigate } from 'react-router'
-import { Link } from 'react-router-dom'
+import React, { useContext, useEffect, useReducer, createContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Skeleton from 'react-loading-skeleton'
 import { AuthContext } from '../../../App'
 import { apiUrl } from '../../../utils/api-url'
 import { refreshToken } from '../../../utils/refresh-token'
+import UserCard from './UserCard'
+import { FETCH_USERS_FAILURE, FETCH_USERS_REQUEST, FETCH_USERS_SUCCESS } from '../action-types'
 import { HIDE_LOADER, SHOW_LOADER } from '../../../action-types'
 
+export const UsersContext = createContext()
+
 const initialState = {
-    users: undefined,
+    users: [],
     isFetching: false,
     hasError: false
 }
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case 'FETCH_USERS_REQUEST':
+        case FETCH_USERS_REQUEST:
             return {
                 ...state,
                 isFetching: true,
                 hasError: false
             }
-        case 'FETCH_USERS_SUCCESS':
+        case FETCH_USERS_SUCCESS:
             return {
                 ...state,
                 isFetching: false,
                 users: action.payload.users
             }
-        case 'FETCH_USERS_FAILURE':
+        case FETCH_USERS_FAILURE:
             return {
                 ...state,
                 isFetching: false,
@@ -49,7 +53,7 @@ function ListUsers() {
         })
 
         dispatch({
-            type: 'FETCH_USERS_REQUEST'
+            type: FETCH_USERS_REQUEST
         })
 
         fetch(apiUrl('/users'), {
@@ -65,7 +69,7 @@ function ListUsers() {
             }
         }).then(data => {
             dispatch({
-                type: 'FETCH_USERS_SUCCESS',
+                type: FETCH_USERS_SUCCESS,
                 payload: data
             })
         }).catch(error => {
@@ -81,7 +85,7 @@ function ListUsers() {
                 navigate('/forbidden')
             } else {
                 dispatch({
-                    type: 'FETCH_USERS_FAILURE'
+                    type: FETCH_USERS_FAILURE
                 })
             }
         }).finally(() => {
@@ -92,25 +96,62 @@ function ListUsers() {
     }, [authDispatch, authState.token, authState.refreshToken, navigate])
 
     return (
-        <div className="list-users">
-            {state.users && (
-                <>
-                    <p>
-                        Listado de users
-                    </p>
-                    <p>
-                        Titulo: {state.users.nickname}
-                    </p>
-                </>
-            )}
-
-            {state.hasError && (
-                <p>Ocurrio un error al obtener los jugadores</p>
-            )}
-
-            <Link to="/home">Volver a home</Link>
-        </div>
-    )
+            <UsersContext.Provider value={{ state, dispatch }}>
+                <main className="page-home container mb-5">
+                    <div className="bg-light p-4 rounded">
+    
+                        <div id="Card-container" className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                            {state.isFetching ? (
+                                <>
+                                    <div className="User-card col">
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <Skeleton height={30} />
+                                                <Skeleton count={4} />
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div className="User-card col">
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <Skeleton height={30} />
+                                                <Skeleton count={4} />
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div className="User-card col">
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <Skeleton height={30} />
+                                                <Skeleton count={4} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            ) : state.hasError ? (
+                                <span className="error">Ocurrió un error</span>
+                            ) : (
+                                <>
+                                {state.users.length > 0 ? (
+                                    state.users.map(user => (
+                                        <UserCard key={user.id} user={user} />
+                                    ))
+                                ) : (
+                                    <div id="create-new-user-hint">
+                                        <p>
+                                            Aun no hay usuarios :(
+                                        </p>
+                                    </div>
+                                )}
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </main>
+            </UsersContext.Provider>
+        )
 }
 
 export default ListUsers
