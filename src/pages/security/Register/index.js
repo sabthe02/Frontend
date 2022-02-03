@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Form, Button } from 'react-bootstrap'
 import { LOGIN } from '../../../action-types'
 import { AuthContext } from '../../../App'
 import { apiUrl } from '../../../utils/api-url'
@@ -65,52 +66,45 @@ function Register() {
     }
 
     return (
-        <div className="login-container">
-            <div className="card">
-                <div className="container">
+        <div className="login-container"> 
+            <div className="container">
                     <h1>Registro de cuenta nueva</h1>
-
-                    <label htmlFor="nickname">
-                        Nickname
-                        <input
-                            type="text"
+            <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Nickname:</Form.Label>
+                    <Form.Control type="text"
                             value={data.nickname}
                             onChange={handleInputChange}
                             name="nickname"
-                            id="nickname"
-                        />
-                    </label>
+                            id="nickname" />
+                </Form.Group>
 
-                    <label htmlFor="password">
-                        Contraseña
-                        <input
-                            type="password"
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password"
                             value={data.password}
                             onChange={handleInputChange}
                             name="password"
-                            id="password"
-                        />
-                    </label>
-
-                    <button onClick={handleFormSubmit} disabled={data.isSubmitting}>
+                            id="password" />
+                </Form.Group>
+                <Button variant="primary" onClick={handleFormSubmit} disabled={data.isSubmitting}>
                         {data.isSubmitting ? (
                             "Espere..."
                         ) : (
                             "Ingresar"
                         )}
-                    </button>
-
-                    {data.errorMessage && (
+                </Button>
+                {data.errorMessage && (
                         <span className="form-error">{data.errorMessage}</span>
                     )}
 
                     <br/>
-                    <Link to="/login">Iniciar sesion</Link>
+                    <Link to="/login">Iniciar sesión</Link>
                     <br/>
                     <Link to="/">Volver a landing</Link>
+                </Form>
                 </div>
             </div>
-        </div>
     )
 }
 
