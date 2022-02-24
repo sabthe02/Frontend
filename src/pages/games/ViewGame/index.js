@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { AuthContext } from '../../../App'
 import { apiUrl } from '../../../utils/api-url'
 import { refreshToken } from '../../../utils/refresh-token'
-import { HIDE_LOADER, SHOW_LOADER } from '../../../action-types'
+import { HIDE_LOADER, SHOW_LOADER} from '../../../action-types'
 
 const initialState = {
     game: undefined,
@@ -15,103 +15,98 @@ const initialState = {
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case 'FETCH_GAME_REQUEST':
+        case 'FETCH_GAMES_REQUEST':
             return {
                 ...state,
                 isFetching: true,
                 hasError: false
             }
-        case 'FETCH_GAME_SUCCESS':
+        case 'FETCH_GAMES_SUCCESS':
             return {
                 ...state,
                 isFetching: false,
-                game: action.payload.game
+                game: action.payload.games
             }
-        case 'FETCH_GAME_FAILURE':
+        case 'FETCH_GAMES_FAILURE':
             return {
                 ...state,
-                isFetching: false,
-                hasError: true
+                hasError: true,
+                isFetching: false
             }
+        
         default:
             return state
     }
 }
 
-function ViewGame() {
+function ViewGame({ game }) {
     const navigate = useNavigate()
-    const { id } = useParams()
     const [ state, dispatch ] = useReducer(reducer, initialState)
     const { state: authState, dispatch: authDispatch } = useContext(AuthContext)
 
     useEffect(() => {
-        authDispatch({
-            type: SHOW_LOADER
-        })
-
-        dispatch({
-            type: 'FETCH_GAME_REQUEST'
-        })
-
-        fetch(apiUrl(`games/${id}`), {
-            headers: {
-                'Authorization': authState.token,
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-            if (response.ok) {
-                return response.json()
-            } else {
-                throw response
-            }
-        }).then(data => {
-            dispatch({
-                type: 'FETCH_GAME_SUCCESS',
-                payload: data
-            })
-        }).catch(error => {
-            console.error('Error en fetch del juego', error.status)
-
-            if (error.status === 401) {
-                refreshToken(
-                    authState.refreshToken,
-                    authDispatch,
-                    navigate
-                )
-            } else if (error.state === 403) {
-                navigate('/forbidden')
-            } else {
-                dispatch({
-                    type: 'FETCH_GAME_FAILURE'
-                })
-            }
-        }).finally(() => {
+        if (authState.token) {
             authDispatch({
-                type: HIDE_LOADER
+                type: SHOW_LOADER
             })
-        })
-    }, [id, authDispatch, authState.token, authState.refreshToken, navigate])
+
+            dispatch({
+                type: 'FETCH_GAMES_REQUEST'
+            })
+    
+            fetch(apiUrl('games/users'), {
+                headers: {
+                    'Authorization': authState.token,
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw response
+                }
+            }).then(data => {
+                dispatch({
+                    type: 'FETCH_GAMES_SUCCESS',
+                    payload: data
+                })
+            }).catch(error => {
+                console.error('Error en fetch de los juegos', error)
+
+                if (error.status === 401) {
+                    refreshToken(
+                        authState.refreshToken,
+                        authDispatch,
+                        navigate
+                    )
+                } else if (error.status === 403) {
+                    navigate('/forbidden')
+                } else {
+                    dispatch({
+                        type: 'FETCH_GAMES_FAILURE'
+                    })
+                }
+            }).finally(() => {
+                authDispatch({
+                    type: HIDE_LOADER
+                })
+            })
+        }
+    }, [authDispatch, authState.token, authState.refreshToken, navigate])
 
     return (
         <div className="view-game">
             {state.game && (
                 <>
                     <p>
-                        Pagina para ver el game id: {id}
-                    </p>
-                    <p>
-                        Titulo: {state.game.id}
+                        Oponente: {game.opponent}
+                        Puntos obtenidos: {game.score}
+                        Puntos obtenidos oponente: {game.opp_score}
+                        Resultado: {game.result}
+                        Jugadas: {game.choices}
+                        Finalizada: {game.finished}
                     </p>
                     
-           {/*  <div className="card">
-                <div className="card-body">
-                <h4 className="card-title">Oponente: {game.opponent}</h4>
-                    <p className="card-text"> Puntos obtenidos: {game.score}</p>
-                    <p className="card-title">Puntos obtenidos oponente: {game.opp_score}</p>
-                    <p className="card-title">Resultado: {game.result}</p>
-                    <p className="card-title">jugadas: {game.choices}</p>
-                </div>
-            </div> */}
                 </>
             )}
             

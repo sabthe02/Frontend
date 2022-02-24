@@ -141,7 +141,7 @@ function ListUsers() {
                                 ) : (
                                     <div id="create-new-user-hint">
                                         <p>
-                                            Aun no hay usuarios :(
+                                            Aun no hay usuarios registrados :(
                                         </p>
                                     </div>
                                 )}

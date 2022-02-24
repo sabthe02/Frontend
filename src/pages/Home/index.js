@@ -58,7 +58,7 @@ function Home() {
                 type: FETCH_GAMES_REQUEST
             })
     
-            fetch(apiUrl('games'), {
+            fetch(apiUrl('games/users'), {
                 headers: {
                     'Authorization': authState.token,
                     'Content-Type': 'application/json'
@@ -103,7 +103,7 @@ function Home() {
             <main className="page-home container mb-5">
                 <div className="bg-light p-4 rounded">
 
-                    <div id="Card-container" className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <div id="Games-container" className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                         {state.isFetching ? (
                             <>
                                 <div className="playedGame-card col">
@@ -153,7 +153,7 @@ function Home() {
                     </div>
                 </div>
                 <button className ="fab fab-fixed d-flex justify-content-center align-items-center bg-primary"
-                onClick={() => navigate('/users')}>
+                onClick={() => navigate('/users')}>Buscar contra quién jugar
                  <i className="bi bi-plus"></i>
                 </button>
             </main>

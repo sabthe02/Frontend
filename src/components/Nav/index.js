@@ -4,7 +4,6 @@ import { Navbar, Nav, Container } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { FaHandScissors } from 'react-icons/fa'
 import { AuthContext } from '../../App'
-import NavLink from '../NavLink'
 import { LOGOUT } from '../../action-types'
 
 

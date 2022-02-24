@@ -1,10 +1,6 @@
 import './style.scss'
 import React from 'react'
-import { Navbar, Nav, Container } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
-import { FaHandScissors } from 'react-icons/fa'
 import { AuthContext } from '../../App'
-import { LOGOUT } from '../../action-types'
 
 
 function Landing() {
@@ -25,13 +21,6 @@ function Landing() {
                     </div>
                 </div>
             </main>
-
-            <footer className="container py-5">
-                <div className="row">
-                    <div className="col">
-                    </div>
-                </div>
-            </footer>
         </>
     )
 }

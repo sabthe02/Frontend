@@ -1,11 +1,12 @@
 import './App.scss'
-import React, { createContext, useReducer } from 'react'
+import React, { createContext, useReducer, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import RequireAuth from './components/RequireAuth'
 import Landing from './pages/Landing'
 import Home from './pages/Home'
 import ListUsers from './pages/users/ListUsers'
-import CreateGame from './pages/games/CreateGame'
+import Play from './pages/games/Play'
+import Game from './pages/games/Game'
 import ViewGame from './pages/games/ViewGame'
 import Login from './pages/security/Login'
 import Register from './pages/security/Register'
@@ -76,6 +77,8 @@ const reducer = (state, action) => {
 
 function App() {
     const [state, dispatch] = useReducer(reducer, initialState)
+    const [myChoice, setMyChoice] = useState("")
+    const [score, setScore] = useState(0)
 
     return (
         <AuthContext.Provider value={{ state, dispatch }}>
@@ -83,7 +86,7 @@ function App() {
                 <Routes>
                     <Route path="/home" element={
                         <RequireAuth>
-                            <BarraNav />
+                            <BarraNav/>
                             <Home />
                         </RequireAuth>
                     } />
@@ -94,17 +97,25 @@ function App() {
                             <ListUsers />
                         </RequireAuth>
                     } />
+
                     <Route path="/games/:id" element={
                         <RequireAuth>
                             <BarraNav />
                             <ViewGame />
                         </RequireAuth>
-                    } />
+                    } />  
 
-                    <Route path="/games/create" element={
+                    <Route path="/games/play" element={
                         <RequireAuth>
                             <BarraNav />
-                            <CreateGame />
+                            <Play setMyChoice={setMyChoice}/>
+                        </RequireAuth>      
+                    } />
+                    
+                    <Route path="/games/game" element={
+                        <RequireAuth>
+                            <BarraNav />
+                            <Game myChoice={myChoice} score={score} setScore={setScore} />
                         </RequireAuth>
                     } />
 
