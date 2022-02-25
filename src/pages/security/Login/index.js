@@ -101,9 +101,9 @@ function Login() {
                     )}
 
                     <br/>
-                    <Link to="/register">Registrarse</Link>
+                    <Link to="/register" className='return-home'>Registrarse</Link>
                     <br/>
-                    <Link to="/">Volver a landing</Link>
+                    <Link to="/" className='return-home'>Volver a landing</Link>
                 </Form>
                 </div>
             </div>

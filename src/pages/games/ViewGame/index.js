@@ -156,7 +156,7 @@ function ViewGame() {
                 <p>Ocurrio un error al obtener la partida</p>
             )}
 
-            <Link to="/home">Volver a home</Link>
+            <Link to="/home" className='return-home'>Volver a home</Link>
         </div>
     )
 }

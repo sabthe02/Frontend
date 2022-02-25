@@ -99,9 +99,9 @@ function Register() {
                     )}
 
                     <br/>
-                    <Link to="/login">Iniciar sesión</Link>
+                    <Link to="/login" className='return-home'>Iniciar sesión</Link>
                     <br/>
-                    <Link to="/">Volver a landing</Link>
+                    <Link to="/" className='return-home'>Volver a landing</Link>
                 </Form>
                 </div>
             </div>

@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import './style.scss'
 import { AuthContext } from '../../../App'
 import { apiUrl } from '../../../utils/api-url'
-import { HIDE_LOADER, SHOW_LOADER } from '../../../action-types'
 import { refreshToken } from '../../../utils/refresh-token'
 
 const initialState = {
@@ -45,11 +44,11 @@ const Game = ({ score, myChoice, setScore }) => {
     const [house, setHouse] = useState('');
     const [playerWin, setPlayerWin] = useState('')
 
-    useEffect(() => {
-      authDispatch({
-          type: SHOW_LOADER
-      })
 
+    const navigate = useNavigate ()
+
+    useEffect(() => {
+     
       dispatch({
           type: 'FETCH_GAME_REQUEST'
       })
@@ -86,10 +85,6 @@ const Game = ({ score, myChoice, setScore }) => {
                   type: 'FETCH_GAME_FAILURE'
               })
           }
-      }).finally(() => {
-          authDispatch({
-              type: HIDE_LOADER
-          })
       })
   }, [id, authDispatch, authState.token, authState.refreshToken, navigate])
 
@@ -104,9 +99,6 @@ const Game = ({ score, myChoice, setScore }) => {
   useEffect(() => {
     newHousePick()
   }, [])
-
-
-  const navigate = useNavigate ()
 
   const Result = () => {
     if (myChoice === 'rock' && house === 'paper') {
@@ -160,11 +152,10 @@ const Game = ({ score, myChoice, setScore }) => {
         {playerWin === "win" && (
           <div className="game__play">
             <span className="text">Ganaste</span>
-            <Link to='/games/:id' onClick={() => navigate (`games/${id}`), () => setHouse() }>
+            <Link to= '/games/:id' className="view-game" onClick={() => navigate (`games/${id}`), () => setHouse() }>
                   Ver resumen
               </Link>
-              )}
-              <Link to='/home' onClick={() => navigate ('/home') }>
+              <Link to='/home' className="return-home" onClick={() => navigate ('/home') }>
                   Volver al home
               </Link>
           </div>
@@ -172,10 +163,10 @@ const Game = ({ score, myChoice, setScore }) => {
         {playerWin === "lose" && (
           <div className="game__play">
             <span className="text">Perdiste</span>
-            <Link to='/games/:id' onClick={() => navigate (`games/${id}`), () => setHouse() }>
+            <Link to= '/games/:id' className="view-game" onClick={() => navigate (`games/${id}`), () => setHouse() }>
                   Ver resumen
               </Link>
-              <Link to='/home' onClick={() => navigate ('/home') }>
+              <Link to='/home' className="return-home" onClick={() => navigate ('/home') }>
                   Volver al home
               </Link>
           </div>
@@ -183,10 +174,10 @@ const Game = ({ score, myChoice, setScore }) => {
         {playerWin === "draw" && (
           <div className="game__play">
             <span className="text">Empate</span>
-            <Link to='/games/:id' onClick={() => navigate (`games/${id}`), () => setHouse() }>
+            <Link to= '/games/:id' className="view-game" onClick={() => navigate (`games/${id}`), () => setHouse() }>
                   Ver resumen
               </Link>
-              <Link to='/home' onClick={() => navigate ('/home') }>
+              <Link to='/home' className="return-home" onClick={() => navigate ('/home') }>
                   Volver al home
               </Link>
           </div>
