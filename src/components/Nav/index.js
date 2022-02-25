@@ -9,6 +9,8 @@ import { LOGOUT } from '../../action-types'
 
 function BarraNav() {
     const { dispatch } = React.useContext(AuthContext)
+
+
     const navigate = useNavigate()
 
     const logout = () => {

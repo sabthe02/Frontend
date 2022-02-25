@@ -1,11 +1,11 @@
 import './style.scss'
-import React, { useReducer, useContext } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import React, { /* useReducer, */ useContext } from 'react'
+import { /* useNavigate, */ Link } from 'react-router-dom'
 import { AuthContext } from '../../../App'
-import { apiUrl } from '../../../utils/api-url'
-import { refreshToken } from '../../../utils/refresh-token'
+/* import { apiUrl } from '../../../utils/api-url'
+import { refreshToken } from '../../../utils/refresh-token' */
 
-const initialState = {
+/* const initialState = {
     nickname: '',
     password: '',
     token: '',
@@ -48,15 +48,15 @@ const reducer = (state, action) => {
             return state
     }
 
-}
+} */
 
     function Play({ setMyChoice }) {
 
-        const [ state, dispatch ] = useReducer(reducer, initialState)
+ /*        const [ state, dispatch ] = useReducer(reducer, initialState) */
         const { state: authState, dispatch: authDispatch } = useContext(AuthContext)
-        const navigate = useNavigate()
+/*         const navigate = useNavigate() */
     
-        const handleInput = () => {
+     /*    const handleInput = () => {
             dispatch({
                 type: 'CREATE_GAME_REQUEST'
             })
@@ -105,7 +105,7 @@ const reducer = (state, action) => {
                     type: 'CREATE_GAME_FAILURE'
                 })
             }
-        })
+        }) */
 
         const setChoice = (e) => {
             setMyChoice(e.target.dataset.id)
@@ -139,6 +139,6 @@ const reducer = (state, action) => {
             </div>
           )
         }
-    }
+   /*  } */
         
 export default Play

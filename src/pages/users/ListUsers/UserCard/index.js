@@ -1,13 +1,10 @@
 import './style.scss'
-import React, { useContext } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router'
-import { AuthContext } from '../../../../App'
-import { UsersContext } from '../'
+
 
 function UserCard({ user }) {
     const navigate = useNavigate()
-    const { state: authState, dispatch: authDispatch } = useContext(AuthContext)
-    const { state: usersState, dispatch: usersDispatch } = useContext(UsersContext)
     
     return (
         <div className="user-card col">
