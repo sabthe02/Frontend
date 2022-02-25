@@ -113,6 +113,7 @@ const reducer = (state, action) => {
          
           return (
             <div className="play">
+            <h1>Jugar</h1>
               <div className="items">
                 <Link to="/games/game">
                   <div

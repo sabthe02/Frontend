@@ -148,9 +148,7 @@ function ViewGame() {
                             <td>{getOppChoices()}</td>
                             </tr>
                         </tbody>
-                        </table>
-                
-                    
+                        </table>                  
                 </>
             )}
             
